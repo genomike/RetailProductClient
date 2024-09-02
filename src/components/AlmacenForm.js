@@ -1,17 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import almacenService from '../services/almacenService';
 
 const AlmacenForm = ({ match, history }) => {
   const [almacen, setAlmacen] = useState({ nombre: '' });
-  const almacenId = match.params.id;
-
-  useEffect(() => {
-    if (almacenId) {
-      almacenService.getAlmacenById(almacenId).then(response => {
-        setAlmacen(response.data);
-      });
-    }
-  }, [almacenId]);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,20 +13,14 @@ const AlmacenForm = ({ match, history }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (almacenId) {
-      almacenService.updateAlmacen(almacenId, almacen).then(() => {
-        history.push('/');
-      });
-    } else {
-      almacenService.createAlmacen(almacen).then(() => {
-        history.push('/');
-      });
-    }
+    almacenService.createAlmacen(almacen).then(() => {
+      navigate('/almacen-list');
+    });
   };
 
   return (
     <div>
-      <h2>{almacenId ? 'Actualizar Almacén' : 'Crear Almacén'}</h2>
+      <h2>Crear Nuevo Almacén</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Nombre:</label>
@@ -44,7 +31,7 @@ const AlmacenForm = ({ match, history }) => {
             onChange={handleChange}
           />
         </div>
-        <button type="submit">{almacenId ? 'Actualizar' : 'Crear'}</button>
+        <button type="submit">Crear</button>
       </form>
     </div>
   );

@@ -1,6 +1,7 @@
 import axios from 'axios';
+import config from '../config';
 
-const API_URL = 'http://localhost:58411/api/Almacen';
+const API_URL = `${config.SERVER_URL}/api/Almacen`;
 
 const getAllAlmacenes = () => {
   return axios.get(API_URL);
