@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import almacenService from '../services/almacenService';
 
 const AlmacenForm = ({ match, history }) => {
-  const [almacen, setAlmacen] = useState({ nombre: '' });
+  const [almacen, setAlmacen] = useState({ nombre: '', tipo: '', EstadoEntidad: 'activo' });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -30,6 +30,15 @@ const AlmacenForm = ({ match, history }) => {
             value={almacen.nombre}
             onChange={handleChange}
           />
+        </div>
+        <div>
+          <label>Tipo:</label>
+          <select name="tipo" value={almacen.tipo} onChange={handleChange}>
+            <option value="">Seleccione un tipo</option>
+            <option value="1">Tipo 1</option>
+            <option value="2">Tipo 2</option>
+            <option value="3">Tipo 3</option>
+          </select>
         </div>
         <button type="submit">Crear</button>
       </form>
