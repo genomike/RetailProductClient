@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import almacenService from '../services/almacenService';
 
 const AlmacenDelete = () => {
   const [almacen, setAlmacen] = useState({ nombre: '' });
-  const { id: almacenId } = useParams();
+  const [nombreBusqueda, setNombreBusqueda] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (almacenId) {
-      almacenService.getAlmacenById(almacenId).then(response => {
+    if (nombreBusqueda) {
+      almacenService.getAlmacenByNombre(nombreBusqueda).then(response => {
         setAlmacen(response.data);
       });
     }
-  }, [almacenId]);
+  }, [nombreBusqueda]);
 
   const handleDelete = () => {
-    if (almacenId) {
-      almacenService.deleteAlmacen(almacenId).then(() => {
-        navigate('/');
+    if (almacen.id) {
+      almacenService.deleteAlmacen(almacen.id).then(() => {
+        navigate('/almacen-list');
       });
     }
   };
@@ -26,6 +26,14 @@ const AlmacenDelete = () => {
   return (
     <div>
       <h2>Eliminar Almacén</h2>
+      <div>
+        <label>Buscar por Nombre:</label>
+        <input
+          type="text"
+          value={nombreBusqueda}
+          onChange={(e) => setNombreBusqueda(e.target.value)}
+        />
+      </div>
       <p>¿Estás seguro de que deseas eliminar el almacén {almacen.nombre}?</p>
       <button onClick={handleDelete}>Eliminar</button>
     </div>

@@ -15,7 +15,9 @@ const AlmacenList = () => {
       <h2>Lista de Almacenes</h2>
       <ul>
         {almacenes.map(almacen => (
-          <li key={almacen.id}>{almacen.nombre}</li>
+          <li key={almacen.id}>
+            {almacen.nombre} - {almacen.direccion} - {almacen.tipo}
+          </li>
         ))}
       </ul>
     </div>
